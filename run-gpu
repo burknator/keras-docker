@@ -1,1 +1,1 @@
-docker run -it -v $1:/notebooks -p 8888:8888 keras-gpu:latest
+nvidia-docker run -it -v $1:/notebooks -p 8888:8888 keras-gpu:latest

@@ -1,59 +1,11 @@
-# Using TensorFlow via Docker
+# Using Keras via Docker
 
-This directory contains `Dockerfile`s to make it easy to get up and running with
-TensorFlow via [Docker](http://www.docker.com/).
+Based on https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tools/docker
 
-## Installing Docker
+## Build
 
-General installation instructions are
-[on the Docker site](https://docs.docker.com/installation/), but we give some
-quick links here:
+Nothing unusual here: `docker build -t TAG [-f Dockerfile.gpu]`
 
-* [OSX](https://www.docker.com/products/docker#/mac)
-* [Ubuntu](https://docs.docker.com/engine/installation/linux/ubuntulinux/)
+## Usage
 
-## Which containers exist?
-
-We currently maintain two Docker container images:
-
-* `gcr.io/tensorflow/tensorflow` - TensorFlow with all dependencies - CPU only!
-
-* `gcr.io/tensorflow/tensorflow:latest-gpu` - TensorFlow with all dependencies
-  and support for NVidia CUDA
-
-Note: We also publish the same containers into
-[Docker Hub](https://hub.docker.com/r/tensorflow/tensorflow/tags/).
-
-
-## Running the container
-
-Run non-GPU container using
-
-    $ docker run -it -p 8888:8888 gcr.io/tensorflow/tensorflow
-
-For GPU support install NVidia drivers (ideally latest) and
-[nvidia-docker](https://github.com/NVIDIA/nvidia-docker). Run using
-
-    $ nvidia-docker run -it -p 8888:8888 gcr.io/tensorflow/tensorflow:latest-gpu
-
-
-Note: If you would have a problem running nvidia-docker you may try the old method
-we have used. But it is not recommended. If you find a bug in nvidia-docker, please report
-it there and try using nvidia-docker as described above.
-
-    $ export CUDA_SO=$(\ls /usr/lib/x86_64-linux-gnu/libcuda.* | xargs -I{} echo '-v {}:{}')
-    $ export DEVICES=$(\ls /dev/nvidia* | xargs -I{} echo '--device {}:{}')
-    $ docker run -it -p 8888:8888 $CUDA_SO $DEVICES gcr.io/tensorflow/tensorflow:latest-gpu
-
-
-## More containers
-
-See all available [tags](https://hub.docker.com/r/tensorflow/tensorflow/tags/)
-for additional containers, such as release candidates or nightly builds.
-
-
-## Rebuilding the containers
-
-Just pick the dockerfile corresponding to the container you want to build, and run
-
-    $ docker build --pull -t $USER/tensorflow-suffix -f Dockerfile.suffix .
+Once built (you have to do this yourself for now), run the commands in `run-cpu` or `run-gpu` (with your modifications, if needed). Both are configured so that you can pass an absolute path to a directory for jupyter notebooks: `run-cpu PATH`
